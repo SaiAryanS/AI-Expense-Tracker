@@ -1,3 +1,4 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +25,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import type { User } from "@/lib/types";
+import { updateUser } from "@/lib/actions";
 
 const settingsFormSchema = z.object({
   displayName: z.string().min(2, {
@@ -47,13 +49,19 @@ export default function SettingsForm({ user }: { user: User }) {
   });
 
   const onSubmit = async (data: SettingsFormValues) => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Updated settings:", data);
-    toast({
-      title: "Settings Saved",
-      description: "Your profile has been updated successfully.",
-    });
+    const result = await updateUser(user._id.toString(), data);
+    if (result.success) {
+      toast({
+        title: "Settings Saved",
+        description: "Your profile has been updated successfully.",
+      });
+    } else {
+       toast({
+        title: "Error",
+        description: result.message || "Could not update settings.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
