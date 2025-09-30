@@ -1,3 +1,6 @@
+
+'use server';
+
 import type { User, Expense } from './types';
 import db from './db';
 import { ObjectId } from 'mongodb';
@@ -49,13 +52,6 @@ export async function getExpenses(): Promise<Expense[]> {
     }
 
     const expenses = await expensesCollection.find({ userId: userId }).sort({ expenseDate: -1 }).toArray();
-
-    if(expenses.length === 0 && !(await expensesCollection.indexExists("userId_1"))) {
-      // seed data if empty
-      await seedData();
-      const newExpenses = await expensesCollection.find({ userId: userId }).sort({ expenseDate: -1 }).toArray();
-      return newExpenses.map(e => ({...e, _id: e._id.toString(), expenseDate: new Date(e.expenseDate), createdAt: new Date(e.createdAt) }));
-    }
 
     return expenses.map(e => ({...e, _id: e._id.toString(), expenseDate: new Date(e.expenseDate), createdAt: new Date(e.createdAt) }));
   } catch (error) {
