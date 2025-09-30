@@ -69,7 +69,7 @@ export default async function DashboardPage() {
             <p className="text-xs text-muted-foreground">in {thisYear}</p>
           </CardContent>
         </Card>
-        <QuickAddExpense />
+        <QuickAddExpense user={user} />
       </div>
       <div className="grid gap-4 md:grid-cols-1">
         <Card className="col-span-1">

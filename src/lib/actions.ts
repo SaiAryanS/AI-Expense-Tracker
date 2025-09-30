@@ -1,4 +1,3 @@
-
 'use server';
 
 import {revalidatePath} from 'next/cache';
@@ -19,6 +18,44 @@ async function getUsersCollection() {
   const client = await db;
   return client.db().collection('users');
 }
+
+const addExpenseSchema = z.object({
+  amount: z.coerce.number().positive({ message: 'Amount must be positive.' }),
+  category: z.string().min(1, { message: 'Category is required.' }),
+  description: z.string().min(1, { message: 'Description is required.' }),
+  userId: z.string(),
+});
+
+export async function addExpense(data: unknown) {
+  const parsed = addExpenseSchema.safeParse(data);
+  if (!parsed.success) {
+    const errorMessages = parsed.error.errors.map(e => e.message).join(', ');
+    return { success: false, message: `Invalid input: ${errorMessages}` };
+  }
+
+  const { amount, category, description, userId } = parsed.data;
+
+  try {
+    const expenses = await getExpensesCollection();
+    await expenses.insertOne({
+      amount,
+      category,
+      description,
+      userId,
+      expenseDate: new Date(),
+      createdAt: new Date(),
+    });
+
+    revalidatePath('/dashboard');
+    revalidatePath('/transactions');
+    revalidatePath('/reports');
+    return { success: true, message: 'Expense added successfully.' };
+  } catch (error) {
+    console.error('Failed to add expense:', error);
+    return { success: false, message: 'Failed to add expense.' };
+  }
+}
+
 
 export async function deleteExpense(expenseId: string) {
   try {
@@ -77,6 +114,7 @@ export async function signup(data: unknown) {
     email,
     password: hashedPassword,
     currency: 'USD',
+    avatarUrl: '',
     createdAt: new Date(),
   } as Omit<User, '_id'> & {password: string});
 
@@ -120,6 +158,7 @@ export async function login(data: unknown) {
 }
 
 export async function logout() {
-  cookies().delete('userId');
+  const cookieStore = cookies();
+  cookieStore.delete('userId');
   redirect('/login');
 }
