@@ -16,13 +16,14 @@ Noir Ledger is a minimalist expense tracker web application designed for speed, 
 ## Tech Stack
 
 - **Framework**: Next.js
+- **Database**: MongoDB
 - **Styling**: Tailwind CSS
 - **UI Components**: shadcn/ui
 - **Icons**: Lucide React
 - **Charts**: Recharts
 - **AI**: Google Gemini via Genkit
 
-This project uses Next.js with Server Components and Server Actions, simulating a full-stack environment without a separate backend server. Data is mocked for demonstration purposes.
+This project uses Next.js with Server Components and Server Actions, simulating a full-stack environment without a separate backend server.
 
 ## Getting Started
 
@@ -32,14 +33,19 @@ Follow these instructions to set up and run the project locally.
 
 - Node.js (v18 or later)
 - npm or yarn
+- MongoDB (running locally or a connection string to a cloud instance)
 
 ### Environment Variables
 
-Create a `.env.local` file in the root of the project and add the following variables. You will need to create a Google Cloud project and enable the Gemini API to get an API key.
+Create a `.env` file in the root of the project and add the following variables.
 
 ```bash
 # Obtain from your Google Cloud project
 GOOGLE_API_KEY="YOUR_GOOGLE_AI_API_KEY"
+
+# Your MongoDB connection string
+# For a local MongoDB instance, this is typically:
+MONGODB_URI="mongodb://localhost:27017/noir-ledger"
 ```
 
 ### Installation
