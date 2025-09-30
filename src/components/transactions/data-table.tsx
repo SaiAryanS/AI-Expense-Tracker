@@ -29,7 +29,7 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { categories } from "@/lib/data";
+import { categories } from "@/lib/categories";
 import { formatCurrency, formatDate, cn } from "@/lib/utils";
 import type { Expense, User } from "@/lib/types";
 import {

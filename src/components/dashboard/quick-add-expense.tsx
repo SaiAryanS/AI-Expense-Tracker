@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { categories } from "@/lib/data";
+import { categories } from "@/lib/categories";
 import { PlusCircle } from "lucide-react";
 
 export default function QuickAddExpense() {

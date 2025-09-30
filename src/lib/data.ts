@@ -2,6 +2,7 @@ import type { User, Expense } from './types';
 import db from './db';
 import { ObjectId } from 'mongodb';
 import { cookies } from 'next/headers';
+import { categories } from './categories';
 
 const getExpensesCollection = async () => {
   const client = await db;
@@ -12,8 +13,6 @@ const getUsersCollection = async () => {
   const client = await db;
   return client.db().collection<User & {password: string}>('users');
 };
-
-export const categories = ["Food", "Transport", "Utilities", "Entertainment", "Shopping", "Health", "Other"];
 
 export async function getUser(): Promise<User | null> {
   const userId = cookies().get('userId')?.value;
@@ -29,7 +28,7 @@ export async function getUser(): Promise<User | null> {
     if (user) {
       const { password, ...userWithoutPassword } = user;
       return {
-        ...userWithoutPackard.toString(),
+        ...userWithoutPassword,
         _id: userWithoutPassword._id.toString(),
       };
     }

@@ -17,7 +17,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { categories as allCategories } from "@/lib/data";
+import { categories as allCategories } from "@/lib/categories";
 import {
   Select,
   SelectContent,
