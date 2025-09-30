@@ -10,6 +10,7 @@ import { getExpenses, getUser } from "@/lib/data";
 import { formatCurrency } from "@/lib/utils";
 import RecentTransactions from "@/components/dashboard/recent-transactions";
 import QuickAddExpense from "@/components/dashboard/quick-add-expense";
+import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
   const now = new Date();
@@ -19,7 +20,7 @@ export default async function DashboardPage() {
   const [expenses, user] = await Promise.all([getExpenses(), getUser()]);
 
   if (!user) {
-    return <div>Loading...</div>;
+    redirect('/login');
   }
 
   const totalThisMonth = expenses

@@ -12,12 +12,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { getUser } from "@/lib/data";
+import { logout } from "@/lib/actions";
 
 export default async function UserNav() {
   const user = await getUser();
 
   if (!user) {
-    return null;
+    return (
+       <Button asChild>
+        <Link href="/login">Login</Link>
+      </Button>
+    )
   }
 
   const userAvatar = PlaceHolderImages.find(
@@ -63,7 +68,9 @@ export default async function UserNav() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/">Log out</Link>
+          <form action={logout}>
+            <button type="submit" className="w-full text-left">Log out</button>
+          </form>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

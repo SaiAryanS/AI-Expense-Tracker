@@ -6,6 +6,7 @@ export type User = {
   displayName: string;
   currency: 'USD' | 'EUR' | 'INR';
   createdAt: Date;
+  password?: string;
 };
 
 export type Expense = {
