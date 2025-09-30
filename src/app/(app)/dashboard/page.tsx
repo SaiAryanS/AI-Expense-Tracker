@@ -17,11 +17,13 @@ export default async function DashboardPage() {
   const thisMonth = now.getMonth();
   const thisYear = now.getFullYear();
 
-  const [expenses, user] = await Promise.all([getExpenses(), getUser()]);
-
+  const user = await getUser();
+  
   if (!user) {
     redirect('/login');
   }
+  
+  const expenses = await getExpenses(user._id.toString());
 
   const totalThisMonth = expenses
     .filter((exp) => {

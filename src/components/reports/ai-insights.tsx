@@ -2,7 +2,7 @@ import { getSpendingInsights } from "@/ai/flows/spending-insights";
 import { getExpenses, getUser } from "@/lib/data";
 
 export default async function AiInsights() {
-  const [expenses, user] = await Promise.all([getExpenses(), getUser()]);
+  const user = await getUser();
 
   if (!user) {
     return (
@@ -12,6 +12,8 @@ export default async function AiInsights() {
       </div>
     )
   }
+
+  const expenses = await getExpenses(user._id.toString());
 
   const insightsInput = {
     expenses: expenses.map((e) => ({

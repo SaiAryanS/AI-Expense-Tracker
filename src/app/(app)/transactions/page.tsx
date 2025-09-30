@@ -1,12 +1,15 @@
 import TransactionTable from "@/components/transactions/data-table";
 import { getExpenses, getUser } from "@/lib/data";
+import { redirect } from 'next/navigation';
 
 export default async function TransactionsPage() {
-  const [expenses, user] = await Promise.all([getExpenses(), getUser()]);
+  const user = await getUser();
 
   if(!user) {
-    return <div>Loading...</div>
+    redirect('/login');
   }
+
+  const expenses = await getExpenses(user._id.toString());
 
   return (
     <div>

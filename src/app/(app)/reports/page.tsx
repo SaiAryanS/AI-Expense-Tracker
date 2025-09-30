@@ -9,10 +9,18 @@ import {
 } from "@/components/ui/card";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getExpenses } from "@/lib/data";
+import { getExpenses, getUser } from "@/lib/data";
+import { redirect } from "next/navigation";
 
 export default async function ReportsPage() {
-  const expenses = await getExpenses();
+  const user = await getUser();
+
+  if(!user) {
+    redirect('/login');
+  }
+
+  const expenses = await getExpenses(user._id.toString());
+
   return (
     <>
       <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Reports</h1>

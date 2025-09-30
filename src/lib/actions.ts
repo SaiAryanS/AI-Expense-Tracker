@@ -80,6 +80,7 @@ export async function updateUser(
     await users.updateOne({_id: new ObjectId(userId)}, {$set: data});
     revalidatePath('/settings');
     revalidatePath('/dashboard');
+    revalidatePath('/(app)/layout');
     return {success: true};
   } catch (error) {
     console.error('Failed to update user:', error);
@@ -118,8 +119,9 @@ export async function signup(data: unknown) {
     createdAt: new Date(),
   } as Omit<User, '_id'> & {password: string});
 
+  const cookieStore = cookies();
   if (result.insertedId) {
-    cookies().set('userId', result.insertedId.toString(), { httpOnly: true });
+    cookieStore.set('userId', result.insertedId.toString(), { httpOnly: true });
   } else {
     return { success: false, message: 'Failed to create user.' };
   }
@@ -152,7 +154,8 @@ export async function login(data: unknown) {
     return { success: false, message: 'Invalid email or password.' };
   }
   
-  cookies().set('userId', user._id.toString(), { httpOnly: true });
+  const cookieStore = cookies();
+  cookieStore.set('userId', user._id.toString(), { httpOnly: true });
   revalidatePath('/');
   redirect('/dashboard');
 }
