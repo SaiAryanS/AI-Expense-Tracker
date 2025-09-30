@@ -9,7 +9,7 @@ import SettingsForm from "@/components/settings/settings-form";
 import { getUser } from "@/lib/data";
 
 export default async function SettingsPage() {
-  const user = await getUser('user_1');
+  const user = await getUser();
 
   if (!user) {
     return <div>Loading...</div>;

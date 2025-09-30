@@ -14,7 +14,7 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { getUser } from "@/lib/data";
 
 export default async function UserNav() {
-  const user = await getUser('user_1');
+  const user = await getUser();
 
   if (!user) {
     return null;
@@ -63,7 +63,7 @@ export default async function UserNav() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/login">Log out</Link>
+          <Link href="/">Log out</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

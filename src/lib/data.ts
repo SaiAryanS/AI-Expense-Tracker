@@ -14,7 +14,7 @@ const getUsersCollection = async () => {
 
 export const categories = ["Food", "Transport", "Utilities", "Entertainment", "Shopping", "Health", "Other"];
 
-export async function getUser(userId: string): Promise<User | null> {
+export async function getUser(): Promise<User | null> {
   try {
     const users = await getUsersCollection();
     // In a real app, you'd find a user by their session, but here we'll just get the first one.

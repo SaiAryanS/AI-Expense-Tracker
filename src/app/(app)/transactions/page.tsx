@@ -2,7 +2,7 @@ import TransactionTable from "@/components/transactions/data-table";
 import { getExpenses, getUser } from "@/lib/data";
 
 export default async function TransactionsPage() {
-  const [expenses, user] = await Promise.all([getExpenses(), getUser('user_1')]);
+  const [expenses, user] = await Promise.all([getExpenses(), getUser()]);
 
   if(!user) {
     return <div>Loading...</div>

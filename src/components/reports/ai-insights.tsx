@@ -2,7 +2,7 @@ import { getSpendingInsights } from "@/ai/flows/spending-insights";
 import { getExpenses, getUser } from "@/lib/data";
 
 export default async function AiInsights() {
-  const [expenses, user] = await Promise.all([getExpenses(), getUser('user_1')]);
+  const [expenses, user] = await Promise.all([getExpenses(), getUser()]);
 
   if (!user) {
     return (

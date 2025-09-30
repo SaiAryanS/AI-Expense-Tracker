@@ -16,7 +16,7 @@ export default async function DashboardPage() {
   const thisMonth = now.getMonth();
   const thisYear = now.getFullYear();
 
-  const [expenses, user] = await Promise.all([getExpenses(), getUser('user_1')]);
+  const [expenses, user] = await Promise.all([getExpenses(), getUser()]);
 
   if (!user) {
     return <div>Loading...</div>;
