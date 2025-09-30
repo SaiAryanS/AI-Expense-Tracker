@@ -1,5 +1,3 @@
-'use server'
-
 import type { User, Expense } from './types';
 import db from './db';
 import { ObjectId } from 'mongodb';
@@ -31,7 +29,7 @@ export async function getUser(): Promise<User | null> {
     if (user) {
       const { password, ...userWithoutPassword } = user;
       return {
-        ...userWithoutPassword,
+        ...userWithoutPackard.toString(),
         _id: userWithoutPassword._id.toString(),
       };
     }
