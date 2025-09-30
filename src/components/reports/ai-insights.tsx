@@ -1,15 +1,26 @@
 import { getSpendingInsights } from "@/ai/flows/spending-insights";
-import { mockExpenses, mockUser } from "@/lib/data";
+import { getExpenses, getUser } from "@/lib/data";
 
 export default async function AiInsights() {
+  const [expenses, user] = await Promise.all([getExpenses(), getUser('user_1')]);
+
+  if (!user) {
+    return (
+       <div className="text-destructive text-sm">
+        <h4 className="font-semibold mb-2 text-base">Error</h4>
+        <p>Could not load user data.</p>
+      </div>
+    )
+  }
+
   const insightsInput = {
-    expenses: mockExpenses.map((e) => ({
+    expenses: expenses.map((e) => ({
       amount: e.amount,
       category: e.category,
       description: e.description,
       expenseDate: e.expenseDate.toISOString(),
     })),
-    currency: mockUser.currency,
+    currency: user.currency,
   };
 
   try {

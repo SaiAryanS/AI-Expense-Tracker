@@ -11,13 +11,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { mockUser } from "@/lib/data";
+import { getUser } from "@/lib/data";
 
-export default function UserNav() {
+export default async function UserNav() {
+  const user = await getUser('user_1');
+
+  if (!user) {
+    return null;
+  }
+
   const userAvatar = PlaceHolderImages.find(
     (image) => image.id === "user-avatar"
   );
-  const userInitials = mockUser.displayName
+  const userInitials = user.displayName
     .split(" ")
     .map((n) => n[0])
     .join("");
@@ -30,7 +36,7 @@ export default function UserNav() {
             {userAvatar && (
               <AvatarImage
                 src={userAvatar.imageUrl}
-                alt={mockUser.displayName}
+                alt={user.displayName}
                 data-ai-hint={userAvatar.imageHint}
               />
             )}
@@ -42,10 +48,10 @@ export default function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {mockUser.displayName}
+              {user.displayName}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
-              {mockUser.email}
+              {user.email}
             </p>
           </div>
         </DropdownMenuLabel>

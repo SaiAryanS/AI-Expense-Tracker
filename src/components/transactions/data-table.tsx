@@ -28,9 +28,9 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { mockExpenses, mockUser, categories } from "@/lib/data";
+import { categories } from "@/lib/data";
 import { formatCurrency, formatDate, cn } from "@/lib/utils";
-import type { Expense } from "@/lib/types";
+import type { Expense, User } from "@/lib/types";
 import {
   Select,
   SelectContent,
@@ -41,13 +41,13 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { DateRange } from "react-day-picker";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 
 const ITEMS_PER_PAGE = 10;
 
-export default function TransactionTable() {
+export default function TransactionTable({ expenses: allExpenses, user }: { expenses: Expense[], user: User }) {
   const [filteredExpenses, setFilteredExpenses] =
-    React.useState<Expense[]>(mockExpenses);
+    React.useState<Expense[]>(allExpenses);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [descriptionFilter, setDescriptionFilter] = React.useState("");
   const [categoryFilter, setCategoryFilter] = React.useState("all");
@@ -57,7 +57,7 @@ export default function TransactionTable() {
   });
 
   React.useEffect(() => {
-    let expenses = mockExpenses.filter((expense) => {
+    let expenses = allExpenses.filter((expense) => {
       const descMatch = expense.description
         .toLowerCase()
         .includes(descriptionFilter.toLowerCase());
@@ -66,13 +66,13 @@ export default function TransactionTable() {
       const dateMatch =
         date?.from &&
         date?.to &&
-        expense.expenseDate >= date.from &&
-        expense.expenseDate <= date.to;
+        new Date(expense.expenseDate) >= date.from &&
+        new Date(expense.expenseDate) <= date.to;
       return descMatch && catMatch && dateMatch;
     });
     setFilteredExpenses(expenses);
     setCurrentPage(1);
-  }, [descriptionFilter, categoryFilter, date]);
+  }, [descriptionFilter, categoryFilter, date, allExpenses]);
 
   const totalPages = Math.ceil(filteredExpenses.length / ITEMS_PER_PAGE);
   const paginatedExpenses = filteredExpenses.slice(
@@ -156,7 +156,7 @@ export default function TransactionTable() {
           <TableBody>
             {paginatedExpenses.length > 0 ? (
               paginatedExpenses.map((expense) => (
-                <TableRow key={expense._id}>
+                <TableRow key={expense._id.toString()}>
                   <TableCell className="font-medium">
                     {formatDate(expense.expenseDate)}
                   </TableCell>
@@ -165,7 +165,7 @@ export default function TransactionTable() {
                     <Badge variant="outline">{expense.category}</Badge>
                   </TableCell>
                   <TableCell className="text-right">
-                    {formatCurrency(expense.amount, mockUser.currency)}
+                    {formatCurrency(expense.amount, user.currency)}
                   </TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>

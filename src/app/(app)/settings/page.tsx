@@ -6,8 +6,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import SettingsForm from "@/components/settings/settings-form";
+import { getUser } from "@/lib/data";
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const user = await getUser('user_1');
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -26,7 +33,7 @@ export default function SettingsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <SettingsForm />
+          <SettingsForm user={user} />
         </CardContent>
       </Card>
     </div>

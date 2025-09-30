@@ -22,8 +22,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { mockUser } from "@/lib/data";
 import { Loader2 } from "lucide-react";
+import type { User } from "@/lib/types";
 
 const settingsFormSchema = z.object({
   displayName: z.string().min(2, {
@@ -34,14 +34,14 @@ const settingsFormSchema = z.object({
 
 type SettingsFormValues = z.infer<typeof settingsFormSchema>;
 
-export default function SettingsForm() {
+export default function SettingsForm({ user }: { user: User }) {
   const { toast } = useToast();
 
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(settingsFormSchema),
     defaultValues: {
-      displayName: mockUser.displayName,
-      currency: mockUser.currency,
+      displayName: user.displayName,
+      currency: user.currency,
     },
     mode: "onChange",
   });

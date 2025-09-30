@@ -9,8 +9,10 @@ import {
 } from "@/components/ui/card";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getExpenses } from "@/lib/data";
 
-export default function ReportsPage() {
+export default async function ReportsPage() {
+  const expenses = await getExpenses();
   return (
     <>
       <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Reports</h1>
@@ -26,7 +28,7 @@ export default function ReportsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="pl-2">
-            <CategoryChart />
+            <CategoryChart expenses={expenses} />
           </CardContent>
         </Card>
         <Card className="lg:col-span-3">

@@ -1,5 +1,7 @@
+import { ObjectId } from 'mongodb';
+
 export type User = {
-  _id: string;
+  _id: string | ObjectId;
   email: string;
   displayName: string;
   currency: 'USD' | 'EUR' | 'INR';
@@ -7,7 +9,7 @@ export type User = {
 };
 
 export type Expense = {
-  _id: string;
+  _id: string | ObjectId;
   userId: string;
   amount: number;
   category: string;

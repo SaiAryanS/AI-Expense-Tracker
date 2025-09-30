@@ -15,11 +15,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { mockExpenses, mockUser } from "@/lib/data";
 import { formatCurrency, formatDate } from "@/lib/utils";
+import type { Expense, User } from "@/lib/types";
 
-export default function RecentTransactions() {
-  const recentExpenses = mockExpenses.slice(0, 10);
+export default function RecentTransactions({ expenses, user }: { expenses: Expense[], user: User }) {
 
   return (
     <div className="w-full">
@@ -36,8 +35,8 @@ export default function RecentTransactions() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {recentExpenses.map((expense) => (
-            <TableRow key={expense._id}>
+          {expenses.map((expense) => (
+            <TableRow key={expense._id.toString()}>
               <TableCell className="font-medium">
                 {formatDate(expense.expenseDate)}
               </TableCell>
@@ -46,7 +45,7 @@ export default function RecentTransactions() {
                 <Badge variant="outline">{expense.category}</Badge>
               </TableCell>
               <TableCell className="text-right">
-                {formatCurrency(expense.amount, mockUser.currency)}
+                {formatCurrency(expense.amount, user.currency)}
               </TableCell>
               <TableCell className="text-right">
                 <DropdownMenu>

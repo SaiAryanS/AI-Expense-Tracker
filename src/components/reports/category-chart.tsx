@@ -17,7 +17,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { mockExpenses, categories as allCategories } from "@/lib/data";
+import { categories as allCategories } from "@/lib/data";
 import {
   Select,
   SelectContent,
@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import type { Expense } from "@/lib/types";
 
 const CHART_COLORS = [
   "hsl(var(--chart-1))",
@@ -44,12 +45,12 @@ const chartConfig = allCategories.reduce((config, category, index) => {
   return config;
 }, {} as ChartConfig);
 
-export default function CategoryChart() {
+export default function CategoryChart({ expenses }: { expenses: Expense[] }) {
   const [timeRange, setTimeRange] = React.useState("this_year");
 
   const chartData = React.useMemo(() => {
     const now = new Date();
-    const filteredExpenses = mockExpenses.filter((expense) => {
+    const filteredExpenses = expenses.filter((expense) => {
       const expenseDate = new Date(expense.expenseDate);
       if (timeRange === "this_month") {
         return (
@@ -78,7 +79,7 @@ export default function CategoryChart() {
       ...item,
       fill: chartConfig[item.category]?.color,
     }));
-  }, [timeRange]);
+  }, [timeRange, expenses]);
 
   return (
     <div className="space-y-4">
