@@ -1,4 +1,3 @@
-
 import type { User, Expense } from './types';
 import db from './db';
 import { ObjectId } from 'mongodb';
