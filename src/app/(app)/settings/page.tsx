@@ -1,3 +1,4 @@
+
 import {
   Card,
   CardContent,
@@ -29,7 +30,7 @@ export default async function SettingsPage() {
         <CardHeader>
           <CardTitle>Profile</CardTitle>
           <CardDescription>
-            Update your display name and preferred currency.
+            Update your display name, avatar, and preferred currency.
           </CardDescription>
         </CardHeader>
         <CardContent>

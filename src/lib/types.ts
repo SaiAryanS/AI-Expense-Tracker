@@ -1,3 +1,4 @@
+
 import { ObjectId } from 'mongodb';
 
 export type User = {
@@ -5,6 +6,7 @@ export type User = {
   email: string;
   displayName: string;
   currency: 'USD' | 'EUR' | 'INR';
+  avatarUrl?: string;
   createdAt: Date;
   password?: string;
 };

@@ -36,7 +36,7 @@ export async function deleteExpense(expenseId: string) {
 
 export async function updateUser(
   userId: string,
-  data: Partial<Pick<User, 'displayName' | 'currency'>>
+  data: Partial<Pick<User, 'displayName' | 'currency' | 'avatarUrl'>>
 ) {
   try {
     const users = await getUsersCollection();

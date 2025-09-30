@@ -31,6 +31,7 @@ const settingsFormSchema = z.object({
   displayName: z.string().min(2, {
     message: "Display name must be at least 2 characters.",
   }),
+  avatarUrl: z.string().url({ message: "Please enter a valid URL." }).or(z.literal("")),
   currency: z.enum(["USD", "EUR", "INR"]),
 });
 
@@ -43,6 +44,7 @@ export default function SettingsForm({ user }: { user: User }) {
     resolver: zodResolver(settingsFormSchema),
     defaultValues: {
       displayName: user.displayName,
+      avatarUrl: user.avatarUrl || "",
       currency: user.currency,
     },
     mode: "onChange",
@@ -75,6 +77,19 @@ export default function SettingsForm({ user }: { user: User }) {
               <FormLabel>Display Name</FormLabel>
               <FormControl>
                 <Input placeholder="Your name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="avatarUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Avatar URL</FormLabel>
+              <FormControl>
+                <Input placeholder="https://example.com/avatar.png" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
